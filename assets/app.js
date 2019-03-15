@@ -27,7 +27,6 @@ $(document).ready(function () {
     // Displays initial button array.
     renderButtons();
 
-
     ///////////////////////////////////////////////////////////////////
     // EVENT FUNCTIONS - Jquery functions to be defined goes here... //
     ///////////////////////////////////////////////////////////////////
@@ -35,26 +34,27 @@ $(document).ready(function () {
     // EVENT - If GC button is clicked, call the API to render image.
     $(".gc").click(function() {
         var temp = $(this).attr("data-name");
-        alert(temp);
+        // alert(temp);
 
-        var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=9Kh7ZtNmsYxfE4XPchClcKcJ7LxX1OBc&q=&limit=10&offset=0&rating=G&lang=en";
+        var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + temp;
 
         $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
+
+            alert("INSIDE AJAX");
+
             // Saving the image_original_url property
             var imageUrl = response.data.image_original_url;
   
             // Creating and storing an image tag
-            var catImage = $("<img>");
+            var Image = $("<img>");
   
-            // Setting the catImage src attribute to imageUrl
-            catImage.attr("src", imageUrl);
-            catImage.attr("alt", "cat image");
+            // Setting the Image src attribute to imageUrl
+            Image.attr("src", imageUrl);
+            Image.attr("alt", "character image");
   
             // Prepending the catImage to the images div
-            $("#images").prepend(catImage);
+            $("#images").prepend(Image);
         });
-
-
     });
     
     // EVENT - Appends new character
@@ -69,3 +69,44 @@ $(document).ready(function () {
 
 
 });
+
+
+
+
+
+
+
+
+
+
+
+    // Event listener for our cat-button
+    $("#cat-button").on("click", function() {
+
+        // Storing our giphy API URL for a random cat image
+        var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cats";
+  
+        // Perfoming an AJAX GET request to our queryURL
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+  
+        // After the data from the AJAX request comes back
+          .then(function(response) {
+  
+          // Saving the image_original_url property
+            var imageUrl = response.data.image_original_url;
+  
+            // Creating and storing an image tag
+            var catImage = $("<img>");
+  
+            // Setting the catImage src attribute to imageUrl
+            catImage.attr("src", imageUrl);
+            catImage.attr("alt", "cat image");
+  
+            // Prepending the catImage to the images div
+            $("#images").prepend(catImage);
+          });
+      });
+    

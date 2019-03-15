@@ -1,13 +1,13 @@
-/////////////////////////////////////////////////////////////////////////////////////
-// GLOBAL FUNCTIONS - Defined Functions to be called/referenced later goes here... //
-/////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+// GLOBAL FUNCTIONS - Defined Functions to be called/referenced later//
+///////////////////////////////////////////////////////////////////////
 function renderButtons() {
     $("#newbuttons").empty();
-    for (var i = 0; i < gameChar.length; i++) {
+    for (var i = 0; i < topics.length; i++) {
         var btn = $("<button>");
-        btn.addClass("gc");
-        btn.attr("data-name", gameChar[i]);
-        btn.text(gameChar[i]);
+        btn.addClass("verb").addClass("btn btn-dark");
+        btn.attr("data-name", topics[i]);
+        btn.text(topics[i]);
         $("#newbuttons").append(btn);
         
     }
@@ -16,32 +16,30 @@ function renderButtons() {
 /////////////////////////////////////////
 // GLOBAL DECLARE/INITIALIZE VARIABLES //
 /////////////////////////////////////////
-var apiKey = "9Kh7ZtNmsYxfE4XPchClcKcJ7LxX1OBc";
-var gameChar = ["mario", "pikachu", "yoshi", "master chief", "tracer", "pac-man", "link", "solid snake", "cloud strife"];
+var topics = ["sleep", "eat", "read", "cry", "laugh", "jump", "type", "skate", "sit", "crash", "dance", "play", "fall"];
 
-$(document).on("click", ".gc", function() {
+$(document).on("click", ".verb", function() {
+    //reset for new images
+    $("#images").empty();
     var temp = $(this).attr("data-name");
-
-        var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + temp + "&limit=10";
-
+        var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + temp + "&limit=10&rating=pg";
         //loop to call ajax 10 times
         for(var i = 0; i < 10; i++) {
             $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-
                 // Saving the image_original_url property
                 var imageUrl = response.data.image_original_url;
-    
                 // Creating and storing an image tag
                 var Image = $("<img>");
                 // Setting the Image src attribute to imageUrl
                 Image.attr("src", imageUrl);
-                Image.attr("alt", "character image");
-    
-                // Prepending the catImage to the images div
+                Image.attr("width", "300");
+                Image.attr("alt", "do it");
+                // Prepending the Image to the images div
                 $("#images").append(Image);
             });
         }
 });
+
 ////////////////
 // CODE START //
 ////////////////
@@ -50,62 +48,23 @@ $(document).ready(function () {
     // Displays initial button array.
     renderButtons();
 
-    ///////////////////////////////////////////////////////////////////
-    // EVENT FUNCTIONS - Jquery functions to be defined goes here... //
-    ///////////////////////////////////////////////////////////////////
-
+    /////////////////////
+    // EVENT FUNCTIONS //
+    /////////////////////
     
-    // EVENT - Appends new character
-    $("#add-character").click(function(event) {
+    //Appends new character
+    $("#add").click(function(event) {
         event.preventDefault();
-        var textInput = $("#characterinput").val().trim();
+        var textInput = $("#verbinput").val().trim();
+        //clear textbox
+        $("#verbinput").val('');
         ///push content into the array
-        gameChar.push(textInput);
+        topics.push(textInput);
         renderButtons();
+
         
     });
 
 
 
 });
-
-
-
-
-
-
-
-
-
-
-
-    // Event listener for our cat-button
-    $("#cat-button").on("click", function() {
-
-        // Storing our giphy API URL for a random cat image
-        var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=cats";
-  
-        // Perfoming an AJAX GET request to our queryURL
-        $.ajax({
-          url: queryURL,
-          method: "GET"
-        })
-  
-        // After the data from the AJAX request comes back
-          .then(function(response) {
-  
-          // Saving the image_original_url property
-            var imageUrl = response.data.image_original_url;
-  
-            // Creating and storing an image tag
-            var catImage = $("<img>");
-  
-            // Setting the catImage src attribute to imageUrl
-            catImage.attr("src", imageUrl);
-            catImage.attr("alt", "cat image");
-  
-            // Prepending the catImage to the images div
-            $("#images").prepend(catImage);
-          });
-
-      });

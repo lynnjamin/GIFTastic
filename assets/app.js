@@ -9,6 +9,7 @@ function renderButtons() {
         btn.attr("data-name", gameChar[i]);
         btn.text(gameChar[i]);
         $("#newbuttons").append(btn);
+        
     }
 }
 
@@ -18,7 +19,29 @@ function renderButtons() {
 var apiKey = "9Kh7ZtNmsYxfE4XPchClcKcJ7LxX1OBc";
 var gameChar = ["mario", "pikachu", "yoshi", "master chief", "tracer", "pac-man", "link", "solid snake", "cloud strife"];
 
+$(document).on("click", ".gc", function() {
+    var temp = $(this).attr("data-name");
 
+        var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + temp + "&limit=10";
+
+        //loop to call ajax 10 times
+        for(var i = 0; i < 10; i++) {
+            $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
+
+                // Saving the image_original_url property
+                var imageUrl = response.data.image_original_url;
+    
+                // Creating and storing an image tag
+                var Image = $("<img>");
+                // Setting the Image src attribute to imageUrl
+                Image.attr("src", imageUrl);
+                Image.attr("alt", "character image");
+    
+                // Prepending the catImage to the images div
+                $("#images").append(Image);
+            });
+        }
+});
 ////////////////
 // CODE START //
 ////////////////
@@ -31,31 +54,6 @@ $(document).ready(function () {
     // EVENT FUNCTIONS - Jquery functions to be defined goes here... //
     ///////////////////////////////////////////////////////////////////
 
-    // EVENT - If GC button is clicked, call the API to render image.
-    $(".gc").click(function() {
-        var temp = $(this).attr("data-name");
-        // alert(temp);
-
-        var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + temp;
-
-        $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-
-            alert("INSIDE AJAX");
-
-            // Saving the image_original_url property
-            var imageUrl = response.data.image_original_url;
-  
-            // Creating and storing an image tag
-            var Image = $("<img>");
-  
-            // Setting the Image src attribute to imageUrl
-            Image.attr("src", imageUrl);
-            Image.attr("alt", "character image");
-  
-            // Prepending the catImage to the images div
-            $("#images").prepend(Image);
-        });
-    });
     
     // EVENT - Appends new character
     $("#add-character").click(function(event) {
@@ -63,9 +61,10 @@ $(document).ready(function () {
         var textInput = $("#characterinput").val().trim();
         ///push content into the array
         gameChar.push(textInput);
-        console.log(textInput);
         renderButtons();
+        
     });
+
 
 
 });
@@ -108,5 +107,5 @@ $(document).ready(function () {
             // Prepending the catImage to the images div
             $("#images").prepend(catImage);
           });
+
       });
-    

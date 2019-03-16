@@ -13,7 +13,7 @@ There are the basic steps to achieve this project, one task must be done before 
 - Finish the aesthetics
 - Add extra features to the incoming giphys 
     - animate and pause when clicked on
-    - ratings for appropriate results (rated g)
+
     
     ### Improvements
 This assignment has a lot of potential to become a lot of things. In the future I would like to add more interactive things to the giphys such as dragging and dropping them into a built in folder so that you could view them later. Also being able to add a share button to social media platforms because gifs are super cool to pass a long :)

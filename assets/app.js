@@ -32,7 +32,7 @@ $(document).on("click", ".verb", function() {
                 var imageData = response.data;
 
                 // Still and Animated variables
-                var imageUrl = imageData.image_original_url;
+                var imageUrl = imageData.images.original_still.url;
                 var animateImage = imageData.images.original.url;
                 var stillImage = imageData.images.original_still.url;
                 var state = "still";
@@ -54,9 +54,11 @@ $(document).on("click", ".verb", function() {
                     if(state === "still"){
                     $(this).attr("src", $(this).attr("data-animate"));
                     $(this).attr("data-state", "animate");
+                    state = "animate;"
                     } else {
                     $(this).attr("src", $(this).attr("data-still"));
                     $(this).attr("data-state", "still");
+                    state = "still";
                     }
                 });
 
